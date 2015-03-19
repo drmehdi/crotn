@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <f:view>
+        <div class="bloc_logo"><a href="http://www.orange.tn"><img src="http://media.orange.tn/design/front_office_public/img/header/logo.gif" alt="orange" id="logo"/></a></div><div class="bloc_accueil"><h:link outcome="home" value="accueil" class="lien_acceuil"/></div>
+
+        <div class="bloc_recherche" style="display: none;">
+            <ol id="toc">
+                <li><a href="javascript:ChoooseTab('page-2')" id="site" class="active"><span>dans le site</span></a></li>
+                <li><a href="javascript:ChoooseTab('page-1')" id="web" class="inactive"><span>web</span></a></li>
+
+            </ol>
+            <div id="page-1" class="content inactive">
+                <form action="/pid35-recherche.html" method="post" name="form1">
+
+                    <input name="active_value" id="active_value" value="page-1" type="hidden"/>
+                    <input class="input_recherche" id="textfield" name="textfield" value="" type="text"/>
+                    <input value="rechercher" src="http://media.orange.tn/design/front_office_public/img/header/bout_recherche.gif" class="boutt_recherche" onclick="javascript:document.form1.submit();" type="image"/>
+                </form>
+            </div>
+            <div id="page-2" class="content active">
+                <form action="/pid35-recherche.html" method="post" name="form2">  
+                    <input name="active_value" id="active_value" value="page-2" type="hidden"/>
+                    <input class="input_recherche" id="textfield" name="textfield" value="" type="text"/>
+                    <input value="rechercher" src="http://media.orange.tn/design/front_office_public/img/header/bout_recherche.gif" class="boutt_recherche" onclick="javascript:document.form2.submit();" type="image"/>
+                </form>
+            </div>
+        </div>
+
+
+        <script type="text/javascript" src="http://media.orange.tn/design/front_office_public/js/activatables.js"></script>
+        <script type="text/javascript">
+                        //	activatables('page', [ 'page-2','page-1']);
+                        var sT = 'page-2';
+                        ChoooseTab(sT);
+                        function ChoooseTab(sTab) {
+                            if (sTab == 'page-1') {
+                                var obj = document.getElementById('web');
+                                var objInactive = document.getElementById('site');
+                                document.form1.active_value.value = "page-1";
+                                document.getElementById('page-2').className = "content inactive";
+                                document.getElementById('page-1').className = "content active";
+                            }
+                            else if (sTab == 'page-2') {
+                                var obj = document.getElementById('site');
+                                var objInactive = document.getElementById('web');
+                                document.form2.active_value.value = "page-2";
+                                document.getElementById('page-2').className = "content active";
+                                document.getElementById('page-1').className = "content inactive";
+                            }
+                            if (obj.className == "inactive") {
+                                obj.className = "active";
+                                objInactive.className = "inactive";
+
+                            }
+                        }
+
+        </script>
+
+        <style>		
+            .bloc_recherche form #textfield, .bloc_recherche form .boutt_recherche{
+                position:relative;
+            }
+        </style>
+
+        <div class="bloc_acces_langues_site">
+            <ul class="bloc_acces_site">
+                <li class=""><a href=""></a></li>
+                <li class=""><a href="/pid3/accueil-orange-business.html?iSpaceId=PRO"><b>Orange Business</b></a></li>
+            </ul>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+                $("#signout").click(function() {
+                    /*$.post('/logout.php', function(data) {
+                     $(location).attr("href", data);
+                     //console.log(data);
+                     });*/
+                });
+
+                // lorsque je soumets le formulaire
+                $('#access-denied-form').on('submit', function() {
+
+                    // je récupère les valeurs
+                    var login = $('#login').val();
+                    var pwd = $('#password').val();
+
+                    // on vérifie une première fois pour ne pas lancer la requête HTTP
+                    if (login == '' || pwd == '') {
+                        $('#mon_compte_erreur').html("<span>{'MSG_CHAMP_OBLIGATOIRE'|t}</span>");
+                    } else {
+                        // appel Ajax
+                        $.ajax({
+                            url: '/processus/mon_compte/test-cnx.php', // le nom du fichier indiqué dans le formulaire
+                            type: $(this).attr('method'), // la méthode indiquée dans le formulaire (get ou post)
+                            data: $(this).serialize(), // je sérialise les données, ici les $_POST
+                            dataType: 'json',
+                            success: function(json) {
+
+                                //alert(json.reponseCode);
+                                if (json.reponseCode == 1) {
+                                    $(location).attr('href', json.reponseURL);
+                                } else {
+                                    $('#mon_compte_erreur').html(json.reponseError);
+                                }
+                                $('#content_captcha').html('');
+                                console.log(json.reponseCaptcha);
+                                //$('#mon-compte-denied-form').addClass('wraper-captcha-bg'); 
+                                //$('#content_captcha').html(json.reponseCaptcha);
+                                if (json.reponseCaptcha) {
+                                    $('#mon-compte-denied-form').addClass('wraper-captcha-bg');
+                                    $('#content_captcha').html(json.reponseCaptcha);
+                                }
+                            }
+                        });
+                    }
+                    return false; // on empêche le navigateur de soumettre lui-même le formulaire
+                });
+            });
+
+
+        </script>
+
+
+
+
+        <div style="display: block;" class="bloc_identification">
+            <ul class="identification">
+                <li class="bjr">Bonjour </li>
+                <li style="visibility: visible;" class="identif"><strong><h:link outcome="home" value="Identifiez-vous" class="signin strong-text"  /></strong></li>
+            </ul>
+        </div>
+ 
+        
+        <a href="#access-denied" id="access-denied-link" class="nyroModal" style="display:none"></a>
+        <div id="access-denied" style="display: none; width: 565px;">
+            <!--<div id="access-denied-msg">
+                    <p>
+                    Access denied
+                    </p>			
+            </div>-->
+            <div id="mon-compte-denied-form">
+
+                <form id="access-denied-form" name="identification" method="POST" action="">
+                    <p style="margin:0 0 10px 0"><img src="http://media.orange.tn/text/image_title_aWRlbnRpZmllei12b3VzXzMwMF8yMl9MVC0yMTYyNi50dGZfMTVfMV9fMV9fIzMzMzMzM19fXzBfX18%3D.jpg" alt="identifiez-vous"/></p>
+                    <div id="mon_compte_erreur"></div>
+                    <div style="clear:both"></div>
+                    <div class="mon_compte_ident_champs login_mail">
+                        <label><b>saisissez votre identifiant :</b></label>
+                        <input tabindex="1" name="login" id="login" value="" readonly="" type="text"/>
+                    </div>
+                    <div id="access-denied-sub_form">
+                        <div class="mon_compte_ident_champs">
+                            <label><b>mot de passe :</b></label>
+                            <div style="float:left"><input tabindex="2" name="password" id="password" value="" type="password"/></div>
+                            <input tabindex="3" name="pid" id="access-denied-pid" value="" type="hidden"/>
+                            <input tabindex="4" name="url" id="access-denied-url" value="" type="hidden"/>
+                            <div id="content_captcha">
+
+                            </div>
+                        </div>
+                        <input class="submit-auth" value="" type="submit"/>
+                    </div><!--sub_form-->
+                </form>
+            </div>    
+        </div>   
+
+        <style type="text/css">
+            .bloc_menu_blank {
+                clear:both;
+                height: 20px;
+                bottom: 10px;
+                margin:0px; 
+                padding:0px;
+            }
+            .bloc_identification_blank{
+                height:0px;
+            }
+
+        </style>
+        <script type="text/javascript">
+            function openAccessDeniedModal(pid, url) {
+                $('#access-denied-link').click();
+                $('#access-denied-pid').val(pid);
+                $('#access-denied-url').val(url);
+            }
+            $(document).ready(function() {
+                var width_nav = $("#bloc_navigation_principale").width();
+                var width_li = 0;
+                $(".item-prim").each(function() {
+
+                    var width_child = $(this).children('ul').width(); //la largeur du div caché 
+                    var position = $(this).position();
+                    var width_normal = parseInt(width_nav - position.left);
+                    var pos_left = parseInt(width_nav - width_child - 20);
+                    if ($(this).children('ul').hasClass('columns-4')) {
+                        $(this).children('ul').css('left', -6);
+                    } else {
+                        if (width_normal > width_child) {
+                            $(this).children('ul').css('left', position.left - 6);
+                        } else {
+                            $(this).children('ul').css('left', pos_left);
+                        }
+                    }
+
+
+
+                    $(this).hover(function() {
+                        $(this).addClass('sfHover');
+                    },
+                            function() {
+                                $(this).removeClass('sfHover');
+                            });
+
+                });
+
+
+                var position_last_li = $(".item-prim:last-child").position();
+
+
+                /*if (navigator.appName == 'Microsoft Internet Explorer')
+                 {
+                 width_li = parseInt(width_nav - position_last_li.left - 32 );
+                 }else{
+                 width_li = parseInt(width_nav - position_last_li.left - 34 );
+                 }
+                 $(".item-prim:last-child").css('width', width_li);*/
+                $(".links").each(function() {
+                    $(this).children('.link:last-child').css('border', 'none');
+                });
+
+            });
+        </script>
+
+
+        <div id="bloc_navigation_principale">
+            <ul class="sf-menu sf-navbar sf-js-enabled sf-shadow">
+
+                <li class="item-prim">
+                    <a class="sf-with-ul" href="http://www.orange.tn/pid142-offres-mobiles.html" target="_blank">offres mobiles</a><span class="sf-sub-indicator">&#xA0;&#xA0;</span>
+                    <ul style="display: none; visibility: hidden; left: -6px;" class="sub-menu columns-4">
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid956-offres-mobiles.html">offres mobiles</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid841-les-offres-pr-pay-es.html">les offres prépayées</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid842-les-bonus-pr-pay-s.html">les bonus prépayés</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid1068-les-options-pr-pay-es.html">les options prépayées</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid843-les-packs-pr-pay-s.html">les packs prépayés</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid853-les-offres-postpay-es.html">les offres postpayées</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/offres-mobiles/pid866-les-packs-postpay-s.html">les packs postpayés</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid1142-d-j-client-postpay.html">déjà client postpayé</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offre-mobile/pid1013-les-packs-samsung-galaxy.html">les packs Samsung Galaxy </a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offre-mobile/pid1048-les-packs-blackberry-z10.html">les packs BlackBerry Z10</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offre-mobile/pid389-les-offres-iphone.html">les offres iPhone</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offre-mobile/pid581-blackberry.html">BlackBerry</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/offre-mobile/pid289-international.html">international</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid148-les-services.html">les services </a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offres-mobiles/pid147-les-mobiles-et-tablettes.html">les mobiles et tablettes</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offre-mobile/pid296-couverture-r-eseau.html">couverture réseau</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offre-mobile/pid151-assistance-mobile.html">assistance mobile</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/offre-mobile/pid261-d-ecouvrir-la-3g.html">découvrir la 3G</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/offre-mobile/pid1008-d-ecouvrez-le-nouveau-catalogue-orange.html">découvrez le nouveau catalogue Orange</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column img-in-menu"> 
+                            <img src="http://media.orange.tn/image/61/8/teaser-ramadhan-527.10618.29.jpg" alt="" class="img-pub-menu" align="absmiddle"/>
+                        </li>			
+                    </ul>
+
+                    <!--                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                                            </ul>-->
+                </li>
+
+                <li class="item-prim">
+                    <a class="sf-with-ul" href="http://www.orange.tn/pid152-fixe-et-internet.html" target="_blank">fixe et internet</a><span class="sf-sub-indicator">&#xA0;&#xA0;</span>
+                    <ul style="display: none; visibility: hidden; left: -6px;" class="sub-menu columns-4">
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid952-fixe-et-internet.html">fixe et internet</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid467-adsl.html">ADSL </a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid382-la-flybox-orange.html">la Flybox Orange </a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid1173-les-offres-cl-3g-prepay-e.html">les offres Clé 3G prepayée</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/fixe-et-internet/pid377-les-offres-cl-3g-postpay-e.html">les offres Clé 3G postpayée</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid907-les-packs-tablettes.html">les packs Tablettes</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid895-les-cl-s-3g.html">les Clés 3G</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid930-les-packs-smart.html">les packs Smart</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid297-couverture.html">couverture</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/fixe-et-internet/pid800-d-ecouvrir-la-3g-3g-max.html">découvrir la 3G / 3G Max</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid381-nos-accessoires.html">nos accessoires</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid260-mon-mail-orange.html">mon mail Orange</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/fixe-et-internet/pid158-assistance-internet.html">assistance internet</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/fixe-et-internet/pid357-nous-contacter.html">nous contacter</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column img-in-menu"> 
+                            <img src="http://media.orange.tn/image/62/0/reseau.10620.29.jpg" alt="" class="img-pub-menu" align="absmiddle"/>
+                        </li>			
+                    </ul>
+
+                    <!--                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                                            </ul>-->
+                </li>
+
+                <li class="item-prim">
+                    <a class="sf-with-ul" href="http://www.orange.tn/pid185-promotions.html" target="_blank">promotions</a><span class="sf-sub-indicator">&#xA0;&#xA0;</span>
+                    <ul style="display: none; visibility: hidden; left: -6px;" class="sub-menu columns-4">
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/promotions/pid1156-retour-de-l-offre-3ajab.html">retour de l'offre 3ajab</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/promotions/pid1245-cl-3g-pass-10-go-avec-illimit-le-soir.html">Clé 3G Pass : 10 Go avec illimité le soir </a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/promotions/pid1247-promotion-flybox.html">promotion flybox </a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/promotions/pid1242-nouvelle-option-facebook.html">nouvelle option Facebook</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/promotions/pid1146-nouvelle-offre-pr-pay-e-tehabbel.html">nouvelle offre prépayée  Tehabbel   </a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/promotions/pid1248-promo-adsl-6-mois-gratuit.html">promo ADSL 6 mois gratuit</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/promotions/pid1244-pack-rentr-e-boouj.html"> pack rentrée Boouj</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/promotions/pid796-promotion-packs-iphone-5s.html">promotion packs iPhone 5s</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/promotions/pid673-promotion-packs-iphone-5c.html">promotion packs iPhone 5c</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column img-in-menu"> 
+                            <img src="http://media.orange.tn/image/84/6/teaser-samsung-duos-promo.18846.29.jpg" alt="" class="img-pub-menu" align="absmiddle"/>
+                        </li>			
+                    </ul>
+
+                    <!--                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                                            </ul>-->
+                </li>
+
+                <li class="item-prim">
+                    <a class="sf-with-ul" href="http://www.orange.tn/pid160-assistance.html" target="_blank">assistance</a><span class="sf-sub-indicator">&#xA0;&#xA0;</span>
+                    <ul style="display: none; visibility: hidden; left: 236px;" class="sub-menu columns-3">
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/assistance/pid569-assistance.html">assistance</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid553-assistance-adsl-home.html">assistance ADSL Home</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid736-assistance-livebox.html">assistance Livebox</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid554-assistance-pack-internet-security.html">assistance pack Internet Security</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid555-assistance-clients-planet.html">assistance clients Planet</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid302-assistance-internet-3g-3g-max.html">assistance internet 3G/3G Max</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/assistance/pid319-assistance-mon-compte.html">assistance mon compte</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/assistance/pid454-assistance-de-configuration-mobile.html">assistance de configuration mobile</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid233-assistance-mobile.html">assistance mobile</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid308-assistance-roaming-et-international.html">assistance roaming et international</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid246-assistance-services.html">assistance services</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid307-assistance-technologie-3g-3g-max.html">assistance technologie 3G/3G Max</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid250-assistance-terminaux.html">assistance terminaux</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/assistance/pid398-assistance-iphone.html">assistance iPhone</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/assistance/pid584-assistance-blackberry.html">assistance BlackBerry</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid701-recommandations-a-l-usage-du-mobile.html">recommandations à l'usage du mobile</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid935-contact.html">contact</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid1036-suivre-ma-demande-sav.html">suivre ma demande SAV</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/assistance/pid1087-assistance-orange-fid-elit-e.html">assistance Orange Fidélité</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/assistance/pid1090-comprendre-et-payer-ma-facture.html">comprendre et payer ma facture</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                    </ul>
+
+                    <!--                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                                            </ul>-->
+                </li>
+
+                <li class="item-prim">
+                    <a class="sf-with-ul" href="http://www.orange.tn/pid1026-orange-fid-lit.html" target="_blank">Orange Fidélité </a><span class="sf-sub-indicator">&#xA0;&#xA0;</span>
+                    <ul style="display: none; visibility: hidden; left: 236px;" class="sub-menu columns-3">
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/orange-fid-lit/pid1058-orange-fid-lit.html">Orange Fidélité</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/orange-fid-lit/pid1060-pr-sentation.html">présentation</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/orange-fid-elit-e/pid1027-comment-s-inscrire.html">comment s'inscrire ?</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/orange-fid-elit-e/pid1028-comment-ajouter-mes-produits-orange-internet.html">Comment ajouter mes produits Orange internet ?</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/orange-fid-elit-e/pid1029-comment-gagner-des-points.html">comment gagner des points ?</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/orange-fid-elit-e/pid1030-comment-consulter-les-points-cadeaux.html">Comment consulter les points cadeaux?</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/orange-fid-elit-e/pid1031-comment-transformer-les-points-cadeaux.html">comment transformer les points cadeaux ?</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/orange-fid-lit/pid1059-mobiles-tablettes-et-accessoires.html">mobiles, tablettes et accessoires</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/orange-fid-lit/pid1061-les-cadeaux-orange-fid-lit.html">Les cadeaux Orange Fidélité</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/orange-fid-lit/pid1155-simulateur-orange-fid-lit.html">Simulateur Orange Fidélité</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                    </ul>
+
+                    <!--                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                        <li><a href=""></a></li>
+                                                            </ul>-->
+                </li>
+
+                <li class="item-prim">
+                    <a class="sf-with-ul" href="http://www.orange.tn/pid1032-services-orange.html" target="_blank">services Orange</a><span class="sf-sub-indicator">&#xA0;&#xA0;</span>
+                    <ul style="display: none; visibility: hidden; left: 468px;" class="sub-menu columns-2">
+                        <li class="column">
+                            <div class="links">
+
+                                <div class="link">
+                                    <a href="/services-orange/pid1069-e-services.html">e-services</a>
+                                </div>
+
+                                <div class="link">
+                                    <a href="/services-orange/pid1033-les-sevices-multim-dia.html">les sevices multimédia</a>
+                                </div>
+
+                                <div style="border: medium none;" class="link">
+                                    <a href="/services-orange/pid1034-les-services-pratiques.html">les services pratiques</a>
+                                </div>
+
+                            </div>		  	
+                        </li>
+                        <li class="column img-in-menu"> 
+                            <img src="http://media.orange.tn/image/80/0/facture-menu.17800.29.jpg" alt="" class="img-pub-menu" align="absmiddle"/>
+                        </li>			
+                    </ul>
+
+                </li>
+
+            </ul>
+        </div>
+        <!--<div class="bloc_menu_blank">
+                        <img src="http://www.spp.waterloo.il.us/spps/school/images/spacer.gif" height="20" width="400" />
+                </div>--><!-- acces_rapide.tpl -->
+
+        <div class="bloc_menu_blank">
+            <img src="http://media.orange.tn/design/front_office_public/img/spacer.gif" alt="" height="10" width="400"/>
+        </div>
+        <!-- acces_rapide.tpl - end -->
+    
+    </f:view>
+</html>

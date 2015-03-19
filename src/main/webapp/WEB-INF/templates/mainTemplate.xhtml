@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>accueil</title>
+            </f:facet>
+            <h:outputStylesheet library="css" name="mainCss.css"  />
+            
+            <h:outputStylesheet library="js" name="hoverIntent.js"  />
+            <h:outputStylesheet library="js" name="superfish.js"  />
+            <h:outputStylesheet library="js" name="superfish.min.js"  />
+            <h:outputStylesheet library="js" name="supersubs.js"  />
+            <h:outputStylesheet library="js" name="jquery.js"  />
+            <h:outputStylesheet library="css" name="megafish.css"  />
+            <h:outputStylesheet library="css" name="superfish-navbar.css"  />
+            <h:outputStylesheet library="css" name="superfish-vertical.css"  />
+            <h:outputStylesheet library="css" name="superfish.css"  />
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="130" resizable="false" closable="true" collapsible="true">
+                    <ui:include src="/WEB-INF/templates/header.xhtml"/>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="175" header="Aller vers" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Parcours">
+                            <p:menuitem value="Rechercher un CR" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
+                            <p:menuitem value="Voir mes CRs" url="http://www.primefaces.org/themes.html" />
+                        </p:submenu>
+                        <p:submenu label="Création">
+                            <p:menuitem value="Ajouter un CR" url="home_1.xhtml" />
+                        </p:submenu>
+                        <p:submenu label="Administration">
+                            <p:menuitem value="Gérer les accès" url="http://www.primefaces.org/themes.html" />
+
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    <ui:insert name="content">
+                        Please define the content
+                    </ui:insert>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="30" closable="true" collapsible="true">
+                    <ui:include src="/WEB-INF/templates/footer.xhtml" />
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+
