@@ -6,17 +6,14 @@
       xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
-    <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Bienvenue</title>
-    </h:head>
+    <ui:define name="title"><title>#{msg['home_title']}</title></ui:define>
 
-        <ui:define name="content">
-            <h:form>
-                Test...
-                <h:graphicImage library="img" name="arrow-orng-footer.gif" alt=""/>
-             </h:form>
-       </ui:define>
+    <ui:define name="content">
+        <h:form>
+            Test...
+            <h:graphicImage library="img" name="arrow-orng-footer.gif" alt=""/>
+         </h:form>
+   </ui:define>
                     
 </ui:composition>
 </html>

@@ -9,10 +9,10 @@
         <h:head>
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>accueil</title>
+                <ui:insert name="title">undefined</ui:insert>
             </f:facet>
             <h:outputStylesheet library="css" name="mainCss.css"  />
-            
+
             <h:outputStylesheet library="js" name="hoverIntent.js"  />
             <h:outputStylesheet library="js" name="superfish.js"  />
             <h:outputStylesheet library="js" name="superfish.min.js"  />
@@ -34,16 +34,16 @@
 
                 <p:layoutUnit position="west" size="175" header="Aller vers" collapsible="true">
                     <p:menu>
-                        <p:submenu label="Parcours">
-                            <p:menuitem value="Rechercher un CR" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
-                            <p:menuitem value="Voir mes CRs" url="http://www.primefaces.org/themes.html" />
+                        
+                        <p:submenu label="#{msg['menu_consultation']}">
+                            <p:menuitem value="#{msg['menu_rechercher_cr']}" url="look_for_crs.xhtml" />
+                            <p:menuitem value="#{msg['menu_voir_mes_crs']}" url="/faces/see_my_crs.xhtml" />
                         </p:submenu>
-                        <p:submenu label="Création">
-                            <p:menuitem value="Ajouter un CR" url="home_1.xhtml" />
+                        <p:submenu label="#{msg['menu_creation']}">
+                            <p:menuitem value="#{msg['menu_add_cr']}" url="/faces/add_cr.xhtml" />
                         </p:submenu>
-                        <p:submenu label="Administration">
-                            <p:menuitem value="Gérer les accès" url="http://www.primefaces.org/themes.html" />
-
+                        <p:submenu label="#{msg['menu_administration']}">
+                            <p:menuitem value="#{msg['menu_handle_access']}" url="/faces/manage_access.xhtml" />
                         </p:submenu>
 
                     </p:menu>
