@@ -3,18 +3,57 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
+    <ui:composition template="/WEB-INF/templates/mainTemplate.xhtml">
 
         <ui:define name="title"><title>#{msg['look_for_crs_title']}</title></ui:define>
-        
+
         <ui:define name="content">
-            
             <h:form>
-                                
+                <p:dataTable var="changeReq" value="#{filterCRView.changeRequests}" widgetVar="crsTable"
+                             emptyMessage="#{msg['no_crs_found_with_given_criteria']}" filteredValue="#{filterCRView.filteredChangeRequests}">
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Rechercher dans tous les champs:  " />
+                            <p:inputText id="globalFilter" onkeyup="PF('crsTable').filter()" style="width:150px" placeholder="Saisir un mot clé"/>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column filterBy="#{changeReq.numCr}" headerText="N°" footerText="contient" filterMatchMode="contains">
+                        <h:outputText value="#{changeReq.numCr}" />
+                    </p:column>
+
+                    <p:column filterBy="#{changeReq.nomCr}" headerText="Nom" footerText="contient" filterMatchMode="contains">
+                        <h:outputText value="#{changeReq.numCr}" />
+                    </p:column>               
+
+                    <p:column filterBy="#{changeReq.respQualif}" headerText="Resp. qualif" footerText="dans" filterMatchMode="in">
+                              <f:facet name="filter">
+                            <p:selectCheckboxMenu label="Resp. Qualif" onchange="PF('crsTable').filter()" panelStyle="width:200px" scrollHeight="150">
+                                <f:selectItems value="#{filterCRView.responsablesQualif}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{changeReq.respQualif}" />
+                    </p:column>
+
+                    <p:column filterBy="#{changeReq.isCrClosed}" headerText="Statut" footerText="Egal" filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('crsTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="Tous" itemValue="" />
+                                <f:selectItem itemLabel="Fermé" itemValue="true" />
+                                <f:selectItem itemLabel="Ouvert" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <h:outputText value="#{changeReq.isCrClosed ? 'Fermé': 'Ouvert'}" />
+                    </p:column>
+
+                </p:dataTable>
             </h:form>
-       </ui:define>
-                    
-</ui:composition>
+        </ui:define>
+
+    </ui:composition>
 </html>
