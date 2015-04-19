@@ -1,34 +1,39 @@
-package com.mmehdi.crotnprj.managedBeans.views;
+package mmehdi.crotnprj.model.backingviews;
 
-import com.mmehdi.crotnprj.dal.ChangeReq;
-import com.mmehdi.crotnprj.managedBeans.services.ChangeReqService;
+import mmehdi.crotnprj.model.dal.ChangeReq;
+import mmehdi.crotnprj.model.services.ChangeReqService;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 /**
  *
  * @author Mehdi
  */
 @Named(value = "filterCRView")
-@ViewScoped
+@RequestScoped
 public class FilterCRView implements Serializable{
     
     private List<ChangeReq> changeRequests;
     private List<ChangeReq> filteredChangeRequests;
-    private List<String> responsablesQualif;
+    private List<String> responsablesQualif = new ArrayList<>();
 
-    @ManagedProperty("#crService")
-    private ChangeReqService crServ;
+    @Inject
+    private ChangeReqService crService;
     
     @PostConstruct
     public void init() {
-        changeRequests = crServ.getAllCRs();
-        for(ChangeReq cr : changeRequests) {
-            responsablesQualif.add(cr.getRespQualif().getNomRespQualif());
+        changeRequests = crService.getAllCRs();
+        if(changeRequests != null) {
+            for(ChangeReq cr : changeRequests) {
+                responsablesQualif.add(cr.getRespQualif().getNomRespQualif());
+            }
+        } else {
+            System.out.println("Get all CRs returned null!");
         }
     }
     
@@ -39,7 +44,7 @@ public class FilterCRView implements Serializable{
         int i=33;
         i++;
         i *=2;
-        System.out.print(i);
+        System.out.println(i);
     }
 
     public List<ChangeReq> getChangeRequests() {
@@ -59,6 +64,7 @@ public class FilterCRView implements Serializable{
     }
         
     public List<String> getResponsablesQualif() {
+        System.out.println(responsablesQualif.get(0));
         return responsablesQualif;
     }
 

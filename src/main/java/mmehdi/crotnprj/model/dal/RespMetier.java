@@ -1,4 +1,4 @@
-package com.mmehdi.crotnprj.dal;
+package mmehdi.crotnprj.model.dal;
 
 /**
  *

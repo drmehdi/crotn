@@ -1,17 +1,16 @@
-package com.mmehdi.crotnprj.managedBeans.services;
+package mmehdi.crotnprj.model.services;
 
-import com.mmehdi.crotnprj.dal.ChangeReq;
-import com.mmehdi.crotnprj.dal.RespQualif;
+import mmehdi.crotnprj.model.dal.ChangeReq;
+import mmehdi.crotnprj.model.dal.RespQualif;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
+import javax.enterprise.context.Dependent;
 
 /**
  *
  * @author Mehdi
  */
-@Named(value = "crService")
+@Dependent
 public class ChangeReqService {
 
 public List<ChangeReq> getAllCRs() {
