@@ -64,7 +64,6 @@ public class FilterCRView implements Serializable{
     }
         
     public List<String> getResponsablesQualif() {
-        System.out.println(responsablesQualif.get(0));
         return responsablesQualif;
     }
 

@@ -30,7 +30,7 @@
                         <h:outputText value="#{changeReq.numCr}" />
                     </p:column>               
 
-                    <p:column filterBy="#{changeReq.respQualif}" headerText="Resp. qualif" footerText="dans" filterMatchMode="in">
+                    <p:column filterBy="#{changeReq.respQualif}" headerText="Resp. qualif" footerText="dans" filterMatchMode="contains">
                               <f:facet name="filter">
                             <p:selectCheckboxMenu label="Resp. Qualif" onchange="PF('crsTable').filter()" panelStyle="width:200px" scrollHeight="150">
                                 <f:selectItems value="#{filterCRView.responsablesQualif}" />
@@ -39,7 +39,7 @@
                         <h:outputText value="#{changeReq.respQualif}" />
                     </p:column>
 
-                    <p:column filterBy="#{changeReq.isCrClosed}" headerText="Statut" footerText="Egal" filterMatchMode="equals">
+                    <p:column filterBy="#{changeReq.isCrClosed}" headerText="Statut" footerText="Egal" filterMatchMode="exact">
                         <f:facet name="filter">
                             <p:selectOneButton onchange="PF('crsTable').filter()">
                                 <f:converter converterId="javax.faces.Boolean" />
