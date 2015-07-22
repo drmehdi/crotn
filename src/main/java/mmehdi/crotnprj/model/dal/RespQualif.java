@@ -1,10 +1,14 @@
 package mmehdi.crotnprj.model.dal;
 
+import java.io.Serializable;
+
 /**
  *
  * @author MMehdi
  */
-public class RespQualif {
+public class RespQualif implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private String nomRespQualif;
 
     public RespQualif(String nomRespQualif) {

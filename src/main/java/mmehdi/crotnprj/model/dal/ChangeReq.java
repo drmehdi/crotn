@@ -1,20 +1,46 @@
 package mmehdi.crotnprj.model.dal;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author MMehdi
  */
-public class ChangeReq {
+//@Entity
+@Named(value = "changeRequest")
+@RequestScoped
+@Table(name = "CHANGE_REQ")
+public class ChangeReq implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "CR_ID")
+    private String idCr;
     private String numCr;
     private String nomCr;
     private String descCr;
     private RespMetier respMetier;
     private RespQualif respQualif;
+    @Temporal(TemporalType.DATE)
     private Calendar dateVabf;
+    @Temporal(TemporalType.DATE)
     private final Calendar dateCreation;
     private boolean isCrClosed;
     
@@ -107,6 +133,25 @@ public class ChangeReq {
 
     public void setIsCrClosed(boolean isCrClosed) {
         this.isCrClosed = isCrClosed;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ChangeReq)) {
+            return false;
+        } 
+        ChangeReq other = (ChangeReq) obj;
+        if (!this.idCr.equals(other.idCr)) {
+            return false;
+        }
+        return true;
+    }
+
+   @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idCr != null ? idCr.hashCode() : 0);
+        return hash;
     }
        
     

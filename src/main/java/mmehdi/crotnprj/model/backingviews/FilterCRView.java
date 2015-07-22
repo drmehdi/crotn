@@ -33,7 +33,7 @@ public class FilterCRView implements Serializable{
                 responsablesQualif.add(cr.getRespQualif().getNomRespQualif());
             }
         } else {
-            System.out.println("Get all CRs returned null!");
+            System.out.println("Get all CRs() returned null!");
         }
     }
     
