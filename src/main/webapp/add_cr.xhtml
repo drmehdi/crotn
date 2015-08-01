@@ -10,23 +10,22 @@
         <ui:define name="title"><title>#{msg['add_cr_title']}</title></ui:define>
 
         <ui:define name="content"> Test insert in DB
+            Nous sommes le #{createChangeReq.changeRequest.dateCreationStrFormatted}
             <h:form>
                 <div style="width: 500px">
                         Nom du CR: 
-                        <p:inputText id="email" required="true" label="email" size="40"
-                                     requiredMessage="Please enter your email address."
-                                     validatorMessage="Invalid email format"
-                                     value="#{beanToSave.nomBeanTest}">
-
-                            <f:validateRegex
-                                pattern="^[_A-Za-z0-9-\+]+$" />
-
+                        <p:inputText id="nomPersonnage" required="true" label="Nom personnage" size="40"
+                                     requiredMessage="Please enter your name."
+                                     validatorMessage="Invalid hero name format"
+                                     value="#{createChangeReq.beanToSave.nomBeanTest}">
+                                    <f:validateRegex pattern="^\w[\s_A-Za-z0-9-\+]+$" />
                         </p:inputText>
-                        <p:watermark for="email" value="Email Address *" />
-                        <p:message for="email" />
+                        
+                        <p:watermark for="nomPersonnage" value="Name of le peronnage *" />
+                        <p:message for="nomPersonnage" />
 
                         <p:commandButton value="test" style="margin:20px"
-                                         action="#{addCR.addCr()}" ajax="false" />
+                                         action="#{createChangeReq.doAddCr}" ajax="false" />
                 </div>
             </h:form>
         </ui:define>

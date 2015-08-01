@@ -1,7 +1,7 @@
-package mmehdi.crotnprj.model.backingviews;
+package mmehdi.crotnprj.CDIsBackingBeans;
 
-import mmehdi.crotnprj.model.dal.ChangeReq;
-import mmehdi.crotnprj.model.services.ChangeReqService;
+import mmehdi.crotnprj.dal.ChangeReq;
+import mmehdi.crotnprj.ejbservices.ChangeReqServiceEJB;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class FilterCRView implements Serializable{
     private List<String> responsablesQualif = new ArrayList<>();
 
     @Inject
-    private ChangeReqService crService;
+    private ChangeReqServiceEJB crService;
     
     @PostConstruct
     public void init() {

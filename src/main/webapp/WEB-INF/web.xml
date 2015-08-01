@@ -23,8 +23,8 @@
     </welcome-file-list>
     <resource-ref>
         <description>MySQL CR_OTN DS</description>
-        <res-ref-name>jdbc/crotn</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
+        <res-ref-name>jdbc/crotn_ds</res-ref-name>
+        <res-type>javax.sql.ConnectionPoolDataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>

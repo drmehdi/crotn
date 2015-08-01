@@ -1,8 +1,6 @@
-package mmehdi.crotnprj.model.dal;
+package mmehdi.crotnprj.dal;
 
 import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +15,6 @@ import javax.validation.constraints.NotNull;
  * @author MMehdi
  */
 @Entity
-@Named(value = "beanToSave")
-@RequestScoped
 @Table(name = "BEAN_TO_SAVE")
 public class BeanToSave implements Serializable {
     private static final long serialVersionUID = 1L;

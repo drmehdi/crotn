@@ -1,20 +1,22 @@
-package mmehdi.crotnprj.model.services;
+package mmehdi.crotnprj.ejbservices;
 
-import mmehdi.crotnprj.model.dal.ChangeReq;
-import mmehdi.crotnprj.model.dal.RespQualif;
+import mmehdi.crotnprj.dal.ChangeReq;
+import mmehdi.crotnprj.dal.RespQualif;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import mmehdi.crotnprj.model.dal.BeanToSave;
+import mmehdi.crotnprj.dal.BeanToSave;
 
 /**
  *
  * @author Mehdi
  */
+@Stateless
 @Dependent
-public class ChangeReqService {
+public class ChangeReqServiceEJB {
 
     @PersistenceContext(unitName="com.mmehdi_crotnprj_war_1.0PU")
     private EntityManager entityManager;         

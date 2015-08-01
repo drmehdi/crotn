@@ -1,11 +1,10 @@
-package mmehdi.crotnprj.model.dal;
+package mmehdi.crotnprj.dal;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,9 +20,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author MMehdi
  */
-//@Entity
-@Named(value = "changeRequest")
-@RequestScoped
+@Entity
 @Table(name = "CHANGE_REQ")
 public class ChangeReq implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,6 +41,8 @@ public class ChangeReq implements Serializable {
     private final Calendar dateCreation;
     private boolean isCrClosed;
     
+    private String dateCreationStrFormatted;
+    
     private List<AccesSysteme> accesSystemes;
     private List<Ressource> ressources;
 
@@ -57,6 +56,7 @@ public class ChangeReq implements Serializable {
     
     public ChangeReq() {
         this.dateCreation = Calendar.getInstance(new Locale("fr", "fr"));
+        this.dateCreationStrFormatted = new SimpleDateFormat("dd-MMM-yyyy", Locale.FRANCE).format(dateCreation.getTime());
     }
 
     public String getNumCr() {
@@ -135,6 +135,15 @@ public class ChangeReq implements Serializable {
         this.isCrClosed = isCrClosed;
     }
 
+    public String getDateCreationStrFormatted() {
+        return dateCreationStrFormatted;
+    }
+
+    public void setDateCreationStrFormatted(String dateCreationStrFormatted) {
+        this.dateCreationStrFormatted = dateCreationStrFormatted;
+    }
+
+       
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof ChangeReq)) {
@@ -153,6 +162,5 @@ public class ChangeReq implements Serializable {
         hash += (idCr != null ? idCr.hashCode() : 0);
         return hash;
     }
-       
     
 }

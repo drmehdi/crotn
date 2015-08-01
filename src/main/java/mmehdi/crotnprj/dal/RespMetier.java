@@ -1,4 +1,4 @@
-package mmehdi.crotnprj.model.dal;
+package mmehdi.crotnprj.dal;
 
 import java.io.Serializable;
 
